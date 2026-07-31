@@ -368,7 +368,7 @@
                 return;
             }
 
-            const scriptUrl = `provinces_data/${filterProv}.js`;
+            const scriptUrl = `${encodeURIComponent(filterProv)}.js`;
             
             // Remove old script if exists
             const oldScript = document.getElementById('prov-data-script');
@@ -388,13 +388,14 @@
                 if (window.provinceData && window.provinceData.data) {
                     const vendors = window.provinceData.vendors;
                     const types = window.provinceData.types;
+                    const olts = window.provinceData.olts;
                     filteredFeatures = window.provinceData.data.map(item => ({
                         type: "Feature",
                         geometry: { type: "Point", coordinates: [item[0], item[1]] },
                         properties: {
                             type: types[item[2]],
                             id: item[3],
-                            olt: item[4],
+                            olt: olts ? olts[item[4]] : item[4],
                             vendor: vendors[item[5]],
                             prov: ""
                         }
